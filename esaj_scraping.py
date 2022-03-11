@@ -1,5 +1,3 @@
-# pip install requests pandas beautifulsoup4 openpyxl
-
 import requests
 import pandas as pd
 import os
