@@ -1,3 +1,22 @@
+# This file is part of eSAJ_scraping 1.0.
+# Copyright 2022, José Eduardo de Souza Pimentel.
+
+""" Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. """
+
 import requests
 import pandas as pd
 import os
@@ -5,7 +24,7 @@ import re
 import time
 from datetime import datetime
 from bs4 import BeautifulSoup
-from tkinter import filedialog
+from tkinter import filedialog, Tk
 
 data_e_hora_em_texto = datetime.now().strftime('%Y-%m-%d_%Hh%Mmin')
 
@@ -114,6 +133,8 @@ def extrai_dados(lista_consulta):
 ano = input('Entre com o ano de referência: ')
 nome_pj = input('Entre com o nome do Procurador/PJ/Grupo/Foro/Vara: ')
 
+root = Tk()
+root.withdraw() # Oculta a janela raiz
 file = filedialog.askopenfilename()
 lista_arquivos = ler_arquivo(file)
 extrai_dados(lista_arquivos)
@@ -139,7 +160,7 @@ with pd.ExcelWriter(f'{nome_pj}_{ano}_resultado_dos_recursos_{data_e_hora_em_tex
   df_erros.to_excel (writer, sheet_name='erros ou não processados')
   df_inconclusivos.to_excel(writer, sheet_name='inconclusivos')
 
-# criação de um arquivo texto com o resultado do trabalho
+# Criação de um arquivo texto com o resultado do trabalho
 with open(f'{nome_pj}_{ano}_resultado_dos_recursos_{data_e_hora_em_texto}.txt', 'w') as arquivo:
     arquivo.write (f'Resultado dos processos recebidos pelo [Procurador/PJ/Grupo/Vara] {nome_pj} no ano {ano} julgados pelo TJSP\n\n\n')
     for l in lista_resultados:
