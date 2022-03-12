@@ -26,6 +26,9 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from tkinter import filedialog, Tk
 
+print ('\nBem vindo ao eSAJ Scraping 1.0 do Pimentel!')
+print ('------------------------------------------\n')
+
 data_e_hora_em_texto = datetime.now().strftime('%Y-%m-%d_%Hh%Mmin')
 
 # Criação das listas vazias
@@ -132,10 +135,12 @@ def extrai_dados(lista_consulta):
 # Pesquisa por 'atos.csv' ou equivalente
 ano = input('Entre com o ano de referência: ')
 nome_pj = input('Entre com o nome do Procurador/PJ/Grupo/Foro/Vara: ')
+print ('Selecione o arquivo texto ou csv com os números dos processos')
 
 root = Tk()
 root.withdraw() # Oculta a janela raiz
 file = filedialog.askopenfilename()
+print ('Aguarde o processamento...')
 lista_arquivos = ler_arquivo(file)
 extrai_dados(lista_arquivos)
 
