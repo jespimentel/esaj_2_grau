@@ -19,7 +19,6 @@ SOFTWARE. """
 
 import requests
 import pandas as pd
-import os
 import re
 import time
 from datetime import datetime
@@ -27,7 +26,7 @@ from bs4 import BeautifulSoup
 from tkinter import filedialog, Tk
 
 print ('\nBem vindo ao eSAJ Scraping 1.0 do Pimentel!')
-print ('------------------------------------------\n')
+print ('-------------------------------------------\n')
 
 data_e_hora_em_texto = datetime.now().strftime('%Y-%m-%d_%Hh%Mmin')
 
@@ -51,6 +50,7 @@ def ler_arquivo(path_do_arquivo):
     for line in file:
        encontra_processos(line)
     print(f'Encontrei {len(lista_arquivos)} processos únicos.')
+    print('Aguarde o processamento e a criação dos arquivos...')
     return lista_arquivos
 
 def pesquisa_processo(num_proc):
@@ -135,12 +135,9 @@ def extrai_dados(lista_consulta):
 # Pesquisa por 'atos.csv' ou equivalente
 ano = input('Entre com o ano de referência: ')
 nome_pj = input('Entre com o nome do Procurador/PJ/Grupo/Foro/Vara: ')
-print ('Selecione o arquivo texto ou csv com os números dos processos')
-
 root = Tk()
 root.withdraw() # Oculta a janela raiz
-file = filedialog.askopenfilename()
-print ('Aguarde o processamento...')
+file = filedialog.askopenfilename(title = 'Selecione o arquivo texto ou csv com os números dos processos', initialdir = '.')
 lista_arquivos = ler_arquivo(file)
 extrai_dados(lista_arquivos)
 
@@ -167,7 +164,7 @@ with pd.ExcelWriter(f'{nome_pj}_{ano}_resultado_dos_recursos_{data_e_hora_em_tex
 
 # Criação de um arquivo texto com o resultado do trabalho
 with open(f'{nome_pj}_{ano}_resultado_dos_recursos_{data_e_hora_em_texto}.txt', 'w') as arquivo:
-    arquivo.write (f'Resultado dos processos recebidos pelo [Procurador/PJ/Grupo/Vara] {nome_pj} no ano {ano} julgados pelo TJSP\n\n\n')
+    arquivo.write (f'Resultado dos processos recebidos por/pelo {nome_pj} no ano {ano} julgados pelo TJSP\n\n\n')
     for l in lista_resultados:
         arquivo.write (f'\nNúmero do processo: {l[0]}\n')
         arquivo.write (f'Órgão Julgador: {l[1]}\n')
@@ -184,4 +181,7 @@ with open(f'{nome_pj}_{ano}_resultado_dos_recursos_{data_e_hora_em_texto}.txt', 
         except:
             arquivo.write ('*' * 40 +'\n')
     arquivo.write ('\n\n\nRelatório emitido em: '+ data_e_hora_em_texto)
-    arquivo.write ('\nDesenvolvido em Python por @jespimentel')
+    arquivo.write ('\nDesenvolvido em Python por José Eduardo de Souza Pimentel')
+    arquivo.write ('\nCódigo-fonte: https://github.com/jespimentel/esaj_2_grau')
+
+print('Programa concluído!')
